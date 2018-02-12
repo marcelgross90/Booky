@@ -1,0 +1,27 @@
+<resources>
+    <string name="title">Title</string>
+    <string name="subtitle">Subtitle</string>
+    <string name="authors">Author</string>
+    <string name="publishedDate">Published Date</string>
+    <string name="pageCount">Page count</string>
+    <string name="addNewBook">Add new book</string>
+    <string name="manuel">Add book manually</string>
+    <string name="invalidISBN">Invalid ISBN</string>
+    <string name="bookNotFound">Book not found</string>
+    <string name="titleIsMissing">Title is missing</string>
+    <string name="noBooks">Your shelf is empty add a book</string>
+    <string name="deleteBook">Delete %s?</string>
+    <string name="cancel">Cancel</string>
+    <string name="search">Search</string>
+    <string name="sortBy">Sort by:</string>
+    <plurals name="filterAuthor">
+        <item quantity="one">1 book sorted by author</item>
+        <item quantity="other">%d books sorted by title</item>
+    </plurals>
+    <plurals name="filterTitle">
+        <item quantity="one">1 book sorted by title</item>
+        <item quantity="other">%d books sorted by title</item>
+    </plurals>
+    <string name="pages">%d pages</string>
+
+</resources>
