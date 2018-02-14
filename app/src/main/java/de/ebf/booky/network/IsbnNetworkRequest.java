@@ -1,4 +1,4 @@
-package de.booky.booky.network;
+package de.ebf.booky.network;
 
 import android.os.AsyncTask;
 
@@ -10,13 +10,16 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-import de.booky.booky.entities.Book;
-import de.booky.booky.entities.BookDto;
+import de.ebf.booky.entities.Book;
+import de.ebf.booky.entities.BookDto;
 
 public class IsbnNetworkRequest {
     public interface OnResultListener {
-        void onResultListener(Book book);
+        void onResultListener(List<Book> book);
     }
 
     private static final String host = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
@@ -59,7 +62,7 @@ public class IsbnNetworkRequest {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
-            listener.onResultListener(response.getBook());
+            listener.onResultListener(response.getBooks());
         }
 
 
@@ -103,14 +106,17 @@ public class IsbnNetworkRequest {
                 this.data = data;
             }
 
-            Book getBook() {
+            List<Book> getBooks() {
                 if (successfulRequest(code)) {
+                    List<Book> books = new ArrayList<>();
                     BookDto dto = gson.fromJson(getString(), BookDto.class);
-                    if (dto.getTotalItems() > 0) {
-                        return new Book(dto);
+                    for (BookDto.Items items : dto.getItems()) {
+                        books.add(new Book(items));
                     }
+                        return books;
+
                 }
-                return null;
+                return Collections.emptyList();
             }
 
             public String getString() {

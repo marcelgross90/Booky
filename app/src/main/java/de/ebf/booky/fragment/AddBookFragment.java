@@ -1,4 +1,4 @@
-package de.booky.booky.fragment;
+package de.ebf.booky.fragment;
 
 
 import android.content.Intent;
@@ -17,9 +17,9 @@ import android.widget.ImageButton;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import de.booky.booky.AddBookActivity;
-import de.booky.booky.IsbnValidator;
-import de.booky.booky.R;
+import de.ebf.booky.AddBookActivity;
+import de.ebf.booky.IsbnValidator;
+import de.ebf.booky.R;
 
 
 public class AddBookFragment extends DialogFragment implements View.OnClickListener {

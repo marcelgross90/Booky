@@ -1,4 +1,4 @@
-package de.booky.booky.database;
+package de.ebf.booky.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,10 +7,10 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.booky.booky.entities.Book;
+import de.ebf.booky.entities.Book;
 
 
-public class BookDao extends BaseDao {
+class BookDao extends BaseDao {
 
     private static BookDao instance;
 
@@ -18,7 +18,7 @@ public class BookDao extends BaseDao {
         super(context);
     }
 
-    public static BookDao getInstance(Context context) {
+    static BookDao getInstance(Context context) {
         if (instance == null) {
             instance = new BookDao(context);
         }
@@ -26,7 +26,7 @@ public class BookDao extends BaseDao {
         return instance;
     }
 
-    public void create(Book book) {
+    void create(Book book) {
         ContentValues values = new ContentValues();
         values.put(BookEntry.COLUMN_BOOK_ISBN, book.getISNB());
         values.put(BookEntry.COLUMN_BOOK_TITLE, book.getTitle());
@@ -39,7 +39,7 @@ public class BookDao extends BaseDao {
         writeDb.insert(BookEntry.TABLE_NAME, null, values);
     }
 
-    public List<Book> read(String selection, String[] selectionArgs, String orderBy) {
+    List<Book> read(String selection, String[] selectionArgs, String orderBy) {
         List<Book> books = new ArrayList<>();
 
         String[] projection = {
@@ -81,7 +81,7 @@ public class BookDao extends BaseDao {
         return books;
     }
 
-    public void delete(String isbn) {
+    void delete(String isbn) {
         writeDb.delete(BookEntry.TABLE_NAME, BookEntry.COLUMN_BOOK_ISBN + " = ?", new String[]{isbn});
     }
 }

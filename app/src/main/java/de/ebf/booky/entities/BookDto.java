@@ -1,4 +1,4 @@
-package de.booky.booky.entities;
+package de.ebf.booky.entities;
 
 
 import java.util.ArrayList;

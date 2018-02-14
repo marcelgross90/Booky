@@ -1,4 +1,4 @@
-package de.booky.booky.entities;
+package de.ebf.booky.entities;
 
 import java.util.Arrays;
 import java.util.List;
@@ -16,8 +16,7 @@ public class Book {
     public Book() {
     }
 
-    public Book(BookDto bookDto) {
-        BookDto.Items item = bookDto.getItems().get(0);
+    public Book(BookDto.Items item) {
         BookDto.VolumeInfo volumeInfo = item.getVolumeInfo();
         BookDto.ImageLinks imageLinks = volumeInfo.getImageLinks();
         if (volumeInfo != null) {

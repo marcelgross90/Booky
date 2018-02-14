@@ -1,4 +1,4 @@
-package de.booky.booky.database;
+package de.ebf.booky.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

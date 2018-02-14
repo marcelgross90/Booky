@@ -1,4 +1,4 @@
-package de.booky.booky;
+package de.ebf.booky;
 
 
 public class IsbnValidator {

@@ -1,35 +1,39 @@
-package de.booky.booky;
+package de.ebf.booky.fragment;
 
+
+import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import de.booky.booky.adapter.BookListAdapter;
-import de.booky.booky.database.BookDbHelper;
-import de.booky.booky.entities.Book;
-import de.booky.booky.fragment.AddBookFragment;
-import de.booky.booky.listener.BookDeleteListener;
+import de.ebf.booky.FilterMode;
+import de.ebf.booky.R;
+import de.ebf.booky.adapter.BookListAdapter;
+import de.ebf.booky.database.BookDbHelper;
+import de.ebf.booky.entities.Book;
+import de.ebf.booky.listener.BookDeleteListener;
 
-public class MainActivity extends AppCompatActivity implements BookListAdapter.DisplayMessage, BookDeleteListener {
+import static de.ebf.booky.FilterMode.AUTHOR;
+import static de.ebf.booky.FilterMode.TITLE;
 
-    public enum FilterMode {
-        TITLE, AUTHOR
-    }
+
+public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookDeleteListener {
 
     private BookListAdapter adapter;
     private RecyclerView recyclerView;
@@ -38,15 +42,17 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
     private RadioButton sortByAuthorBtn;
 
     private View chooseSortByMode;
+    private BookDbHelper db;
 
     public static final String MyPREFERENCES = "Filter_Type";
     public static final String FILTER_MODE = "filter_mode";
     SharedPreferences sharedpreferences;
 
+
     @Override
-    protected void onResume() {
+    public void onResume() {
         super.onResume();
-        adapter.updateDataSet(getFilterMode());
+        adapter.updateDataSet(db.readAllBooks(getFilterMode()));
 
         if (adapter.getItemCount() == 0) {
             showMessageIfEmptyList();
@@ -57,84 +63,13 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-
-        sharedpreferences = getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-
-        adapter = new BookListAdapter(this, this, this, getFilterMode());
-        recyclerView = findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
-        recyclerView.setAdapter(adapter);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(layoutManager);
-
-        noBooksTv = findViewById(R.id.noBooks);
-        chooseSortByMode = findViewById(R.id.sortByChooser);
-
-        filter();
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                if (fragmentManager != null) {
-                    new AddBookFragment().show(fragmentManager, "scan");
-                }
-            }
-        });
-    }
-
-    private void filter() {
-        sortByTitleBtn = findViewById(R.id.titleRadio);
-        sortByAuthorBtn = findViewById(R.id.authorRadio);
-        setRadioButtons();
-
-        sortByAuthorBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortByAuthorBtn.setChecked(true);
-                internalSortClick(FilterMode.AUTHOR, R.string.authors);
-            }
-        });
-
-        sortByTitleBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortByTitleBtn.setChecked(true);
-                internalSortClick(FilterMode.TITLE, R.string.title);
-            }
-        });
-    }
-
-    private void internalSortClick(FilterMode filterMode, int message) {
-        sharedpreferences.edit().putInt(FILTER_MODE, message).apply();
-        adapter.updateDataSet(filterMode);
-        chooseSortByMode.setVisibility(View.GONE);
-    }
-
-
-    private void setRadioButtons() {
-        switch (getFilterMode()) {
-            case AUTHOR:
-                sortByAuthorBtn.setChecked(true);
-                break;
-            case TITLE:
-                sortByTitleBtn.setChecked(true);
-                break;
-            default:
-                sortByTitleBtn.setChecked(true);
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        Activity activity = getActivity();
+        if (activity == null) {
+            return;
         }
-    }
-
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        Log.d("mgr", "create  ");
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.search, menu);
+        MenuInflater menuInflater = activity.getMenuInflater();
+        menuInflater.inflate(R.menu.search, menu);
 
         MenuItem searchItem = menu.findItem(R.id.action_search);
 
@@ -153,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
                 }
             });
         }
-        return true;
+        super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
@@ -168,6 +103,82 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
     }
 
     @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_book_list, container, false);
+
+        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        db = BookDbHelper.getInstance(getContext());
+        adapter = new BookListAdapter(db.readAllBooks(getFilterMode()), this, this);
+        recyclerView = view.findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setAdapter(adapter);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+
+        noBooksTv = view.findViewById(R.id.noBooks);
+        chooseSortByMode = view.findViewById(R.id.sortByChooser);
+
+        filter(view);
+
+        FloatingActionButton fab = view.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager fragmentManager = getFragmentManager();
+                if (fragmentManager != null) {
+                    new AddBookFragment().show(fragmentManager, "scan");
+                }
+            }
+        });
+        
+        return view;
+    }
+
+    private void filter(View view) {
+        sortByTitleBtn = view.findViewById(R.id.titleRadio);
+        sortByAuthorBtn = view.findViewById(R.id.authorRadio);
+        setRadioButtons();
+
+        sortByAuthorBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByAuthorBtn.setChecked(true);
+                internalSortClick(AUTHOR, R.string.authors);
+            }
+        });
+
+        sortByTitleBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                sortByTitleBtn.setChecked(true);
+                internalSortClick(TITLE, R.string.title);
+            }
+        });
+    }
+
+    private void internalSortClick(FilterMode filterMode, int message) {
+        sharedpreferences.edit().putInt(FILTER_MODE, message).apply();
+        adapter.updateDataSet(db.readAllBooks(filterMode));
+        chooseSortByMode.setVisibility(View.GONE);
+    }
+
+
+    private void setRadioButtons() {
+        switch (getFilterMode()) {
+            case AUTHOR:
+                sortByAuthorBtn.setChecked(true);
+                break;
+            case TITLE:
+                sortByTitleBtn.setChecked(true);
+                break;
+            default:
+                sortByTitleBtn.setChecked(true);
+        }
+    }
+
+    @Override
     public void showMessageIfEmptyList() {
         recyclerView.setVisibility(View.GONE);
         noBooksTv.setVisibility(View.VISIBLE);
@@ -176,7 +187,7 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
     @Override
     public void onBookDeleteListener(final Book book) {
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+                getContext());
         alertDialogBuilder
                 .setTitle(getString(R.string.deleteBook, book.getTitle()))
                 .setCancelable(false)
@@ -199,7 +210,7 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
     }
 
     private void delete(Book book) {
-        BookDbHelper.getInstance(MainActivity.this).deleteBook(book);
+        db.deleteBook(book);
         adapter.deleteBook(book);
     }
 
@@ -214,4 +225,5 @@ public class MainActivity extends AppCompatActivity implements BookListAdapter.D
                 return FilterMode.TITLE;
         }
     }
+
 }

@@ -1,6 +1,5 @@
-package de.booky.booky.adapter;
+package de.ebf.booky.adapter;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import de.booky.booky.MainActivity;
-import de.booky.booky.R;
-import de.booky.booky.database.BookDbHelper;
-import de.booky.booky.entities.Book;
-import de.booky.booky.listener.BookDeleteListener;
-import de.booky.booky.viewholder.BookViewHolder;
+import de.ebf.booky.R;
+import de.ebf.booky.entities.Book;
+import de.ebf.booky.listener.BookDeleteListener;
+import de.ebf.booky.viewholder.BookViewHolder;
 
 
 public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable {
@@ -28,16 +25,14 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
 
     private final DisplayMessage displayMessage;
     private final BookDeleteListener listener;
-    private final BookDbHelper db;
     private final List<Book> dataSet = new ArrayList<>();
     private List<Book> filteredDataSet;
 
-    public BookListAdapter(Context context, BookDeleteListener listener, DisplayMessage displayMessage, MainActivity.FilterMode filterMode) {
-        this.db = BookDbHelper.getInstance(context);
+    public BookListAdapter(List<Book> books, BookDeleteListener listener, DisplayMessage displayMessage) {
         this.listener = listener;
         this.displayMessage = displayMessage;
         this.dataSet.clear();
-        this.dataSet.addAll(db.readAllBooks(filterMode));
+        this.dataSet.addAll(books);
         this.filteredDataSet = new LinkedList<>(dataSet);
     }
 
@@ -46,9 +41,9 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
         return new FilterBooks(this, dataSet);
     }
 
-    public void updateDataSet(MainActivity.FilterMode filterMode) {
+    public void updateDataSet(List<Book> books) {
         this.dataSet.clear();
-        this.dataSet.addAll(db.readAllBooks(filterMode));
+        this.dataSet.addAll(books);
         this.filteredDataSet = new LinkedList<>(dataSet);
         notifyDataSetChanged();
     }

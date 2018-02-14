@@ -1,4 +1,4 @@
-package de.booky.booky.viewholder;
+package de.ebf.booky.viewholder;
 
 
 import android.content.Context;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import de.booky.booky.R;
-import de.booky.booky.entities.Book;
-import de.booky.booky.listener.BookDeleteListener;
+import de.ebf.booky.R;
+import de.ebf.booky.entities.Book;
+import de.ebf.booky.listener.BookDeleteListener;
 
 public class BookViewHolder extends RecyclerView.ViewHolder {
 

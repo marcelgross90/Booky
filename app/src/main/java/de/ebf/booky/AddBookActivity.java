@@ -1,4 +1,4 @@
-package de.booky.booky;
+package de.ebf.booky;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,9 +9,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.EditText;
 
-import de.booky.booky.database.BookDbHelper;
-import de.booky.booky.entities.Book;
-import de.booky.booky.network.IsbnNetworkRequest;
+import java.util.List;
+
+import de.ebf.booky.database.BookDbHelper;
+import de.ebf.booky.entities.Book;
+import de.ebf.booky.network.IsbnNetworkRequest;
 
 public class AddBookActivity extends AppCompatActivity implements View.OnClickListener{
 
@@ -42,7 +44,6 @@ public class AddBookActivity extends AppCompatActivity implements View.OnClickLi
         initViews();
 
         setTitle(R.string.addNewBook);
-
 
         Intent intent = getIntent();
         isbn = intent.getStringExtra(getString(R.string.isbn));
@@ -86,12 +87,12 @@ public class AddBookActivity extends AppCompatActivity implements View.OnClickLi
         IsbnNetworkRequest request = new IsbnNetworkRequest();
         request.requestAsync(isbn, new IsbnNetworkRequest.OnResultListener() {
             @Override
-            public void onResultListener(Book book) {
+            public void onResultListener(List<Book> book) {
                 inputs.setVisibility(View.VISIBLE);
                 saveBtn.setVisibility(View.VISIBLE);
                 progressBar.setVisibility(View.GONE);
                 if (book != null) {
-                    assignData(book);
+                    assignData(book.get(0));
                 } else {
                     Snackbar snackbar = Snackbar
                             .make(inputs, R.string.bookNotFound, Snackbar.LENGTH_SHORT);

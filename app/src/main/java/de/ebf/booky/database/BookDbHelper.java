@@ -1,11 +1,11 @@
-package de.booky.booky.database;
+package de.ebf.booky.database;
 
 import android.content.Context;
 
 import java.util.List;
 
-import de.booky.booky.MainActivity;
-import de.booky.booky.entities.Book;
+import de.ebf.booky.FilterMode;
+import de.ebf.booky.entities.Book;
 
 public class BookDbHelper {
 
@@ -34,7 +34,7 @@ public class BookDbHelper {
         return books.size() == 0 ? null : books.get(0);
     }*/
 
-    public List<Book> readAllBooks(MainActivity.FilterMode filterMode) {
+    public List<Book> readAllBooks(FilterMode filterMode) {
         String orderBy;
         switch (filterMode) {
             case TITLE:
