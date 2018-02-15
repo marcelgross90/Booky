@@ -5,8 +5,9 @@ import java.util.List;
 
 public class Book {
 
+    private long id;
     private String title;
-    private String ISNB;
+    private String isnb;
     private String subtitle;
     private List<String> authors;
     private String publishedDate;
@@ -19,19 +20,38 @@ public class Book {
     public Book(BookDto.Items item) {
         BookDto.VolumeInfo volumeInfo = item.getVolumeInfo();
         BookDto.ImageLinks imageLinks = volumeInfo.getImageLinks();
-        if (volumeInfo != null) {
-            this.title = volumeInfo.getTitle();
-            this.subtitle = volumeInfo.getSubtitle();
-            this.authors = volumeInfo.getAuthors();
-            this.publishedDate = volumeInfo.getPublishedDate();
-            this.pageCount = volumeInfo.getPageCount();
-            if (imageLinks != null) {
-                if (imageLinks.getThumbnail() == null)
-                    this.thumbnail = imageLinks.getThumbnail();
-                else
-                    this.thumbnail = imageLinks.getSmallThumbnail();
+        List<BookDto.IndustryIdentifiers> industryIdentifiers = volumeInfo.getIndustryIdentifiers();
+        this.title = volumeInfo.getTitle();
+        this.subtitle = volumeInfo.getSubtitle();
+        this.authors = volumeInfo.getAuthors();
+        this.publishedDate = volumeInfo.getPublishedDate();
+        this.pageCount = volumeInfo.getPageCount();
+        if (imageLinks != null) {
+            if (imageLinks.getThumbnail() == null)
+                this.thumbnail = imageLinks.getThumbnail();
+            else
+                this.thumbnail = imageLinks.getSmallThumbnail();
+        }
+        if (industryIdentifiers.size() > 0) {
+            if (industryIdentifiers.size() == 1) {
+                this.isnb = industryIdentifiers.get(0).getIdentifier();
+            } else {
+                for (BookDto.IndustryIdentifiers industryIdentifier : industryIdentifiers) {
+                    if (industryIdentifier.getType().equals("ISBN_13")) {
+                        this.isnb = industryIdentifier.getIdentifier();
+                        break;
+                    }
+                }
             }
         }
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -42,12 +62,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getISNB() {
-        return ISNB;
+    public String getIsnb() {
+        return isnb;
     }
 
-    public void setISNB(String ISNB) {
-        this.ISNB = ISNB;
+    public void setIsnb(String isnb) {
+        this.isnb = isnb;
     }
 
     public String getSubtitle() {
@@ -89,8 +109,12 @@ public class Book {
     public String getConcatAuthors() {
         StringBuilder authorsCombined = new StringBuilder();
 
+        if (authors == null) {
+            return "";
+        }
+
         for (int i = 0; i < authors.size(); i++) {
-            authorsCombined.append(authors.get(0));
+            authorsCombined.append(authors.get(i));
             if (i < authors.size() - 1)
                 authorsCombined.append(", ");
         }

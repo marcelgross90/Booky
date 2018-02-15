@@ -55,6 +55,6 @@ public class BookDbHelper {
     }
 
     public void deleteBook(Book book) {
-        bookDao.delete(book.getISNB());
+        bookDao.delete(book.getId());
     }
 }

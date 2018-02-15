@@ -7,6 +7,7 @@ import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -28,13 +29,13 @@ import rocks.mgr.booky.R;
 import rocks.mgr.booky.adapter.BookListAdapter;
 import rocks.mgr.booky.database.BookDbHelper;
 import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookDeleteListener;
+import rocks.mgr.booky.listener.BookClickListener;
 
 import static rocks.mgr.booky.FilterMode.AUTHOR;
 import static rocks.mgr.booky.FilterMode.TITLE;
 
 
-public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookDeleteListener {
+public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {
 
     private BookListAdapter adapter;
     private RecyclerView recyclerView;
@@ -104,20 +105,28 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
+    }
+
+    @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
 
-        Context context = getContext();
-        if (context == null) {
+        Activity activity = getActivity();
+        if (activity == null) {
             return null;
         }
 
-        sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        db = BookDbHelper.getInstance(context);
+        activity.setTitle(R.string.app_name);
+
+        sharedpreferences = activity.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        db = BookDbHelper.getInstance(activity);
         adapter = new BookListAdapter(db.readAllBooks(getFilterMode()), this, this);
         recyclerView = view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -190,7 +199,7 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
     }
 
     @Override
-    public void onBookDeleteListener(final Book book) {
+    public void onBookLongClickListener(View view, final Book book) {
         Context context = getContext();
         if (context == null) {
             return;
@@ -217,6 +226,11 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
 
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
+    }
+
+    @Override
+    public void onBookClickListener(View view, Book book) {
+        //not needed
     }
 
     private void delete(Book book) {

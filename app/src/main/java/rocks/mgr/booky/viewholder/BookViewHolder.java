@@ -11,7 +11,7 @@ import com.squareup.picasso.Picasso;
 
 import rocks.mgr.booky.R;
 import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookDeleteListener;
+import rocks.mgr.booky.listener.BookClickListener;
 
 public class BookViewHolder extends RecyclerView.ViewHolder {
 
@@ -22,9 +22,9 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
     private final TextView pages;
     private final Context context;
     private final View view;
-    private final BookDeleteListener listener;
+    private final BookClickListener listener;
 
-    public BookViewHolder(View itemView, BookDeleteListener listener) {
+    public BookViewHolder(View itemView, BookClickListener listener) {
         super(itemView);
         this.context = itemView.getContext();
         this.cover = itemView.findViewById(R.id.cover);
@@ -37,13 +37,23 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void assignData(final Book book) {
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                listener.onBookDeleteListener(book);
-                return false;
-            }
-        });
+        if (listener != null) {
+            view.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    listener.onBookLongClickListener(view, book);
+                    return false;
+                }
+            });
+
+            view.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    listener.onBookClickListener(view, book);
+                }
+            });
+
+        }
         this.title.setText(book.getTitle());
         if (book.getSubtitle() == null || book.getSubtitle().isEmpty()) {
             this.subtitle.setVisibility(View.GONE);

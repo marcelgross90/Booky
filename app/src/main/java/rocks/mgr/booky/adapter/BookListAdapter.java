@@ -13,7 +13,7 @@ import java.util.List;
 
 import rocks.mgr.booky.R;
 import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookDeleteListener;
+import rocks.mgr.booky.listener.BookClickListener;
 import rocks.mgr.booky.viewholder.BookViewHolder;
 
 
@@ -24,11 +24,11 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
     }
 
     private final DisplayMessage displayMessage;
-    private final BookDeleteListener listener;
+    private final BookClickListener listener;
     private final List<Book> dataSet = new ArrayList<>();
     private List<Book> filteredDataSet;
 
-    public BookListAdapter(List<Book> books, BookDeleteListener listener, DisplayMessage displayMessage) {
+    public BookListAdapter(List<Book> books, BookClickListener listener, DisplayMessage displayMessage) {
         this.listener = listener;
         this.displayMessage = displayMessage;
         this.dataSet.clear();

@@ -17,17 +17,26 @@ import java.util.List;
 import rocks.mgr.booky.entities.Book;
 import rocks.mgr.booky.entities.BookDto;
 
-public class IsbnNetworkRequest {
+public class NetworkRequest {
     public interface OnResultListener {
         void onResultListener(List<Book> book);
     }
 
-    private static final String host = "https://www.googleapis.com/books/v1/volumes?q=isbn:";
+    private static final String host = "https://www.googleapis.com/books/v1/volumes?maxResults=40";
 
     private static final int MAXIMUM_RESPONSE_SIZE = 1048576;
 
-    public void requestAsync(final String isbn, final OnResultListener listener) {
-        new BookRequest(listener).execute(isbn);
+    public void searchISBNAsync(final String isbn, final int startIndex, final OnResultListener listener) {
+        String isbnEndpoint = "&q=isbn:" + isbn;
+        isbnEndpoint += "&startIndex=" + startIndex;
+        new BookRequest(listener).execute(isbnEndpoint);
+    }
+
+    public void searchTitleAsync(final String title, final int startIndex, final OnResultListener listener) {
+        String titleEndpoint = "&q=title:" + title.replaceAll(" ", "+");
+        titleEndpoint += "&startIndex=" + startIndex;
+        new BookRequest(listener).execute(titleEndpoint);
+
     }
 
     public static class BookRequest extends AsyncTask<String, Void, BookRequest.Response> {
@@ -66,9 +75,9 @@ public class IsbnNetworkRequest {
         }
 
 
-        private HttpURLConnection openConnection(String isbn) throws IOException {
+        private HttpURLConnection openConnection(String endpoint) throws IOException {
             HttpURLConnection connection =
-                    (HttpURLConnection) new URL(host + isbn).openConnection();
+                    (HttpURLConnection) new URL(host + endpoint).openConnection();
             connection.setRequestMethod("GET");
 
             return connection;

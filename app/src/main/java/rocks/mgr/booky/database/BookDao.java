@@ -28,7 +28,7 @@ class BookDao extends BaseDao {
 
     void create(Book book) {
         ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_BOOK_ISBN, book.getISNB());
+        values.put(BookEntry.COLUMN_BOOK_ISBN, book.getIsnb());
         values.put(BookEntry.COLUMN_BOOK_TITLE, book.getTitle());
         values.put(BookEntry.COLUMN_BOOK_SUBTITLE, book.getSubtitle());
         values.put(BookEntry.COLUMN_BOOK_AUTHORS, book.getConcatAuthors());
@@ -43,6 +43,7 @@ class BookDao extends BaseDao {
         List<Book> books = new ArrayList<>();
 
         String[] projection = {
+                BookEntry._ID,
                 BookEntry.COLUMN_BOOK_ISBN,
                 BookEntry.COLUMN_BOOK_TITLE,
                 BookEntry.COLUMN_BOOK_SUBTITLE,
@@ -65,7 +66,8 @@ class BookDao extends BaseDao {
         if (c.moveToFirst()) {
             do {
                 Book currentBook = new Book();
-                currentBook.setISNB(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_ISBN)));
+                currentBook.setId(c.getLong(c.getColumnIndexOrThrow(BookEntry._ID)));
+                currentBook.setIsnb(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_ISBN)));
                 currentBook.setTitle(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_TITLE)));
                 currentBook.setSubtitle(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_SUBTITLE)));
                 currentBook.extractAuthors(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_AUTHORS)));
@@ -81,7 +83,7 @@ class BookDao extends BaseDao {
         return books;
     }
 
-    void delete(String isbn) {
-        writeDb.delete(BookEntry.TABLE_NAME, BookEntry.COLUMN_BOOK_ISBN + " = ?", new String[]{isbn});
+    void delete(long bookId) {
+        writeDb.delete(BookEntry.TABLE_NAME, BookEntry._ID + " = ?", new String[]{bookId + ""});
     }
 }

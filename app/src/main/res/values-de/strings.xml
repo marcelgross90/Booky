@@ -6,21 +6,20 @@
     <string name="pageCount">Seitenanzahl</string>
     <string name="addNewBook">Neues Buch hinzufügen</string>
     <string name="manuel">Buch manuell hinzufügen</string>
-    <string name="invalidISBN">Ungültige ISBN</string>
+    <string name="invalidISBN">Ungültige ISBN/Titel</string>
     <string name="bookNotFound">Buch nicht gefunden</string>
     <string name="titleIsMissing">Titel fehlt</string>
     <string name="noBooks">Dein Regal ist leer füge ein Buch hinzu</string>
+    <string name="noBooksFound">Keine Bücher gefunden</string>
     <string name="deleteBook">%s löschen?</string>
     <string name="cancel">Abbrechen</string>
     <string name="search">Suche</string>
     <string name="sortBy">Sortieren nach:</string>
-    <plurals name="filterAuthor">
-        <item quantity="one">1 Buch sortiert nach Autor</item>
-        <item quantity="other">%d Bücher sortiert nach Autor</item>
-    </plurals>
-    <plurals name="filterTitle">
-        <item quantity="one">1 Buch sortiert nach Titel</item>
-        <item quantity="other">%d Bücher sortiert nach Titel</item>
-    </plurals>
     <string name="pages">%d Seiten</string>
+    <string name="isbnAndTitle">ISBN/Titel</string>
+    <plurals name="searchResults">
+        <item quantity="one">1 Suchergebniss</item>
+        <item quantity="other">%d Suchergebnisse</item>
+    </plurals>
+    <string name="noSelectedBooks">Keine Bücher ausgewählt</string>
 </resources>

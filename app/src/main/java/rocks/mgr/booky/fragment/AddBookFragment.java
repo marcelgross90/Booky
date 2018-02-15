@@ -17,8 +17,8 @@ import android.widget.ImageButton;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import rocks.mgr.booky.AddBookActivity;
 import rocks.mgr.booky.IsbnValidator;
+import rocks.mgr.booky.MainActivity;
 import rocks.mgr.booky.R;
 
 
@@ -51,6 +51,7 @@ public class AddBookFragment extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onClick(View v) {
+        SearchResultFragment fragment = new SearchResultFragment();
         switch (v.getId()) {
             case R.id.scanBtn:
                 IntentIntegrator.forSupportFragment(AddBookFragment.this)
@@ -60,18 +61,28 @@ public class AddBookFragment extends DialogFragment implements View.OnClickListe
                 break;
             case R.id.okBtn:
                 String isbn = isbnEd.getText().toString().trim();
-                if (isbn.isEmpty() || !IsbnValidator.isValid(isbn)) {
+                if (isbn.isEmpty()) {
                     isbnWrapper.setError(getString(R.string.invalidISBN));
-                } else {
-                    Intent intent = new Intent(getActivity(), AddBookActivity.class);
-                    intent.putExtra(getString(R.string.isbn), isbn);
-                    startActivity(intent);
+                }
+                else if (!IsbnValidator.isValid(isbn)) {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(getString(R.string.title), isbn);
+                    fragment.setArguments(bundle);
+
+                    MainActivity.replaceFragment(getFragmentManager(), fragment);
+                    getDialog().dismiss();
+                }
+                else {
+                    Bundle bundle = new Bundle();
+                    bundle.putString(getString(R.string.isbn), isbn);
+                    fragment.setArguments(bundle);
+
+                    MainActivity.replaceFragment(getFragmentManager(), fragment);
                     getDialog().dismiss();
                 }
                 break;
             case R.id.manuallyBtn:
-                Intent intent = new Intent(getActivity(), AddBookActivity.class);
-                startActivity(intent);
+                MainActivity.replaceFragment(getFragmentManager(), new EditBookFragment());
                 getDialog().dismiss();
                 break;
         }

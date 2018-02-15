@@ -23,8 +23,8 @@
             android:id="@+id/isbnEd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/isbn"
-            android:inputType="number" />
+            android:hint="@string/isbnAndTitle"
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 

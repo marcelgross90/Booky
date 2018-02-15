@@ -15,7 +15,8 @@ abstract class BaseDao extends SQLiteOpenHelper {
     private static final String COMMA_SEP = ", ";
     private static final String SQL_CREATE_BOOK_ENTRIES =
             "CREATE TABLE IF NOT EXISTS " + BookEntry.TABLE_NAME + " (" +
-                    BookEntry.COLUMN_BOOK_ISBN + TEXT_TYPE + " PRIMARY KEY" + COMMA_SEP +
+                    BookEntry._ID + INTEGER_TYPE + " PRIMARY KEY AUTOINCREMENT" + COMMA_SEP +
+                    BookEntry.COLUMN_BOOK_ISBN + TEXT_TYPE + COMMA_SEP +
                     BookEntry.COLUMN_BOOK_TITLE + TEXT_TYPE + COMMA_SEP +
                     BookEntry.COLUMN_BOOK_SUBTITLE + TEXT_TYPE + COMMA_SEP +
                     BookEntry.COLUMN_BOOK_AUTHORS + TEXT_TYPE + COMMA_SEP +
