@@ -32,7 +32,7 @@ public class Book {
             else
                 this.thumbnail = imageLinks.getSmallThumbnail();
         }
-        if (industryIdentifiers.size() > 0) {
+        if (industryIdentifiers != null && industryIdentifiers.size() > 0) {
             if (industryIdentifiers.size() == 1) {
                 this.isnb = industryIdentifiers.get(0).getIdentifier();
             } else {

@@ -19,7 +19,7 @@ import rocks.marcelgross.booky.entities.BookDto;
 
 public class NetworkRequest {
     public interface OnResultListener {
-        void onResultListener(List<Book> book);
+        void onResultListener(BookRequest.ResponseObject responseObject);
     }
 
     private static final String host = "https://www.googleapis.com/books/v1/volumes?maxResults=40";
@@ -71,7 +71,7 @@ public class NetworkRequest {
         @Override
         protected void onPostExecute(Response response) {
             super.onPostExecute(response);
-            listener.onResultListener(response.getBooks());
+            listener.onResultListener(response.getResponseObject());
         }
 
 
@@ -115,17 +115,17 @@ public class NetworkRequest {
                 this.data = data;
             }
 
-            List<Book> getBooks() {
+            ResponseObject getResponseObject() {
                 if (successfulRequest(code)) {
                     List<Book> books = new ArrayList<>();
                     BookDto dto = gson.fromJson(getString(), BookDto.class);
                     for (BookDto.Items items : dto.getItems()) {
                         books.add(new Book(items));
                     }
-                        return books;
+                    return new ResponseObject(books, dto.getTotalItems());
 
                 }
-                return Collections.emptyList();
+                return new ResponseObject(Collections.<Book>emptyList(), 0);
             }
 
             public String getString() {
@@ -138,6 +138,24 @@ public class NetworkRequest {
 
             private boolean successfulRequest(int statusCode) {
                 return statusCode >= HttpURLConnection.HTTP_OK && statusCode < HttpURLConnection.HTTP_MULT_CHOICE;
+            }
+        }
+
+        public class ResponseObject {
+            private final List<Book> books = new ArrayList<>();
+            private int totalItems;
+
+            public ResponseObject(List<Book> books, int totalItems) {
+                this.books.addAll(books);
+                this.totalItems = totalItems;
+            }
+
+            public List<Book> getBooks() {
+                return books;
+            }
+
+            public int getTotalItems() {
+                return totalItems;
             }
         }
     }
