@@ -1,4 +1,4 @@
-package de.ebf.booky.network;
+package rocks.mgr.booky.network;
 
 import android.os.AsyncTask;
 
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import de.ebf.booky.entities.Book;
-import de.ebf.booky.entities.BookDto;
+import rocks.mgr.booky.entities.Book;
+import rocks.mgr.booky.entities.BookDto;
 
 public class IsbnNetworkRequest {
     public interface OnResultListener {

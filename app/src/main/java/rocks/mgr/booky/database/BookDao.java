@@ -1,4 +1,4 @@
-package de.ebf.booky.database;
+package rocks.mgr.booky.database;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -7,7 +7,7 @@ import android.database.Cursor;
 import java.util.ArrayList;
 import java.util.List;
 
-import de.ebf.booky.entities.Book;
+import rocks.mgr.booky.entities.Book;
 
 
 class BookDao extends BaseDao {

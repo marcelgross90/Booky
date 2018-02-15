@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="de.ebf.booky">
+    package="rocks.mgr.booky">
 
     <supports-screens
         android:largeScreens="true"
@@ -31,7 +31,7 @@
                 <category android:name="android.intent.category.BROWSABLE" />
 
                 <data
-                    android:host="www.booky.4ebf.de"
+                    android:host="www.booky.mgr.rocks"
                     android:scheme="http" />
             </intent-filter>
         </activity>

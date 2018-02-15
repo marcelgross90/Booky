@@ -1,4 +1,4 @@
-package de.ebf.booky.fragment;
+package rocks.mgr.booky.fragment;
 
 
 import android.app.Activity;
@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -22,15 +23,15 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import de.ebf.booky.FilterMode;
-import de.ebf.booky.R;
-import de.ebf.booky.adapter.BookListAdapter;
-import de.ebf.booky.database.BookDbHelper;
-import de.ebf.booky.entities.Book;
-import de.ebf.booky.listener.BookDeleteListener;
+import rocks.mgr.booky.FilterMode;
+import rocks.mgr.booky.R;
+import rocks.mgr.booky.adapter.BookListAdapter;
+import rocks.mgr.booky.database.BookDbHelper;
+import rocks.mgr.booky.entities.Book;
+import rocks.mgr.booky.listener.BookDeleteListener;
 
-import static de.ebf.booky.FilterMode.AUTHOR;
-import static de.ebf.booky.FilterMode.TITLE;
+import static rocks.mgr.booky.FilterMode.AUTHOR;
+import static rocks.mgr.booky.FilterMode.TITLE;
 
 
 public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookDeleteListener {
@@ -103,16 +104,20 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_book_list, container, false);
 
-        sharedpreferences = getActivity().getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
-        db = BookDbHelper.getInstance(getContext());
+        Context context = getContext();
+        if (context == null) {
+            return null;
+        }
+
+        sharedpreferences = context.getSharedPreferences(MyPREFERENCES, Context.MODE_PRIVATE);
+        db = BookDbHelper.getInstance(context);
         adapter = new BookListAdapter(db.readAllBooks(getFilterMode()), this, this);
         recyclerView = view.findViewById(R.id.recycler_view);
-        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        LinearLayoutManager layoutManager = new LinearLayoutManager(context);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -132,7 +137,7 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
                 }
             }
         });
-        
+
         return view;
     }
 
@@ -186,8 +191,13 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
 
     @Override
     public void onBookDeleteListener(final Book book) {
+        Context context = getContext();
+        if (context == null) {
+            return;
+        }
+
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                getContext());
+                context);
         alertDialogBuilder
                 .setTitle(getString(R.string.deleteBook, book.getTitle()))
                 .setCancelable(false)

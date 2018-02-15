@@ -1,4 +1,4 @@
-package de.ebf.booky;
+package rocks.mgr.booky;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,9 +11,9 @@ import android.widget.EditText;
 
 import java.util.List;
 
-import de.ebf.booky.database.BookDbHelper;
-import de.ebf.booky.entities.Book;
-import de.ebf.booky.network.IsbnNetworkRequest;
+import rocks.mgr.booky.database.BookDbHelper;
+import rocks.mgr.booky.entities.Book;
+import rocks.mgr.booky.network.IsbnNetworkRequest;
 
 public class AddBookActivity extends AppCompatActivity implements View.OnClickListener{
 

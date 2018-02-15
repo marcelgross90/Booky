@@ -1,14 +1,13 @@
-package de.ebf.booky;
+package rocks.mgr.booky;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.AppCompatActivity;
 
-import de.ebf.booky.fragment.BookListFragment;
+import rocks.mgr.booky.fragment.BookListFragment;
 
 public class MainActivity extends AppCompatActivity {
-
 
     private FragmentManager fm;
 
@@ -19,7 +18,6 @@ public class MainActivity extends AppCompatActivity {
         else
             finish();
     }
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +37,5 @@ public class MainActivity extends AppCompatActivity {
                 .addToBackStack(null)
                 .commit();
     }
-
 
 }

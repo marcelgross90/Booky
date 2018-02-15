@@ -1,4 +1,4 @@
-package de.ebf.booky.database;
+package rocks.mgr.booky.database;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

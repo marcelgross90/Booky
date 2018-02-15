@@ -1,6 +1,6 @@
-package de.ebf.booky.listener;
+package rocks.mgr.booky.listener;
 
-import de.ebf.booky.entities.Book;
+import rocks.mgr.booky.entities.Book;
 
 public interface BookDeleteListener {
 
