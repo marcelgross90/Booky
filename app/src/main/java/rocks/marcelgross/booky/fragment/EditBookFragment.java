@@ -1,4 +1,4 @@
-package rocks.mgr.booky.fragment;
+package rocks.marcelgross.booky.fragment;
 
 
 import android.app.Activity;
@@ -12,9 +12,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import rocks.mgr.booky.R;
-import rocks.mgr.booky.database.BookDbHelper;
-import rocks.mgr.booky.entities.Book;
+import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.database.BookDbHelper;
+import rocks.marcelgross.booky.entities.Book;
 
 public class EditBookFragment extends Fragment implements View.OnClickListener {
 

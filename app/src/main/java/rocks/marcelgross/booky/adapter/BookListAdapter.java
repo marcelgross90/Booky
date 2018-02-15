@@ -1,4 +1,4 @@
-package rocks.mgr.booky.adapter;
+package rocks.marcelgross.booky.adapter;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -11,10 +11,10 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
-import rocks.mgr.booky.R;
-import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookClickListener;
-import rocks.mgr.booky.viewholder.BookViewHolder;
+import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.entities.Book;
+import rocks.marcelgross.booky.listener.BookClickListener;
+import rocks.marcelgross.booky.viewholder.BookViewHolder;
 
 
 public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable {

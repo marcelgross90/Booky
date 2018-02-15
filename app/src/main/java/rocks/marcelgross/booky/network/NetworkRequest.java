@@ -1,4 +1,4 @@
-package rocks.mgr.booky.network;
+package rocks.marcelgross.booky.network;
 
 import android.os.AsyncTask;
 
@@ -14,8 +14,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.entities.BookDto;
+import rocks.marcelgross.booky.entities.Book;
+import rocks.marcelgross.booky.entities.BookDto;
 
 public class NetworkRequest {
     public interface OnResultListener {

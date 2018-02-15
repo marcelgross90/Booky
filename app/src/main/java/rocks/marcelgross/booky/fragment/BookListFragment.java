@@ -1,4 +1,4 @@
-package rocks.mgr.booky.fragment;
+package rocks.marcelgross.booky.fragment;
 
 
 import android.app.Activity;
@@ -24,15 +24,15 @@ import android.view.ViewGroup;
 import android.widget.RadioButton;
 import android.widget.TextView;
 
-import rocks.mgr.booky.FilterMode;
-import rocks.mgr.booky.R;
-import rocks.mgr.booky.adapter.BookListAdapter;
-import rocks.mgr.booky.database.BookDbHelper;
-import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookClickListener;
+import rocks.marcelgross.booky.FilterMode;
+import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.adapter.BookListAdapter;
+import rocks.marcelgross.booky.database.BookDbHelper;
+import rocks.marcelgross.booky.entities.Book;
+import rocks.marcelgross.booky.listener.BookClickListener;
 
-import static rocks.mgr.booky.FilterMode.AUTHOR;
-import static rocks.mgr.booky.FilterMode.TITLE;
+import static rocks.marcelgross.booky.FilterMode.AUTHOR;
+import static rocks.marcelgross.booky.FilterMode.TITLE;
 
 
 public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {

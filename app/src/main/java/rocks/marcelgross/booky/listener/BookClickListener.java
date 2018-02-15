@@ -1,8 +1,8 @@
-package rocks.mgr.booky.listener;
+package rocks.marcelgross.booky.listener;
 
 import android.view.View;
 
-import rocks.mgr.booky.entities.Book;
+import rocks.marcelgross.booky.entities.Book;
 
 public interface BookClickListener {
 

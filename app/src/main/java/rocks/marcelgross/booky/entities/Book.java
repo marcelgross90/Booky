@@ -1,4 +1,4 @@
-package rocks.mgr.booky.entities;
+package rocks.marcelgross.booky.entities;
 
 import java.util.Arrays;
 import java.util.List;

@@ -2,7 +2,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rocks.mgr.booky.fragment.BookListFragment">
+    tools:context="rocks.marcelgross.booky.fragment.BookListFragment">
 
     <LinearLayout
         android:id="@+id/sortByChooser"

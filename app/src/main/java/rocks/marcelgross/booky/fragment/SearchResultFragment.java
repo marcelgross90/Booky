@@ -1,4 +1,4 @@
-package rocks.mgr.booky.fragment;
+package rocks.marcelgross.booky.fragment;
 
 
 import android.app.Activity;
@@ -20,12 +20,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import rocks.mgr.booky.R;
-import rocks.mgr.booky.adapter.BookListAdapter;
-import rocks.mgr.booky.database.BookDbHelper;
-import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookClickListener;
-import rocks.mgr.booky.network.NetworkRequest;
+import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.adapter.BookListAdapter;
+import rocks.marcelgross.booky.database.BookDbHelper;
+import rocks.marcelgross.booky.entities.Book;
+import rocks.marcelgross.booky.listener.BookClickListener;
+import rocks.marcelgross.booky.network.NetworkRequest;
 
 
 public class SearchResultFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {

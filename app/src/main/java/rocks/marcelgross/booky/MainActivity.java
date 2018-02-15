@@ -1,4 +1,4 @@
-package rocks.mgr.booky;
+package rocks.marcelgross.booky;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -7,7 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
-import rocks.mgr.booky.fragment.BookListFragment;
+import rocks.marcelgross.booky.fragment.BookListFragment;
 
 public class MainActivity extends AppCompatActivity {
 

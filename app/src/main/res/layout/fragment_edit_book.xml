@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="rocks.mgr.booky.fragment.EditBookFragment">
+    tools:context="rocks.marcelgross.booky.fragment.EditBookFragment">
 
     <ScrollView
         android:id="@+id/inputs"

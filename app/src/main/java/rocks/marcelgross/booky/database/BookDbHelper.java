@@ -1,11 +1,11 @@
-package rocks.mgr.booky.database;
+package rocks.marcelgross.booky.database;
 
 import android.content.Context;
 
 import java.util.List;
 
-import rocks.mgr.booky.FilterMode;
-import rocks.mgr.booky.entities.Book;
+import rocks.marcelgross.booky.FilterMode;
+import rocks.marcelgross.booky.entities.Book;
 
 public class BookDbHelper {
 

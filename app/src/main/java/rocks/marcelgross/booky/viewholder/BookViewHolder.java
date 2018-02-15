@@ -1,4 +1,4 @@
-package rocks.mgr.booky.viewholder;
+package rocks.marcelgross.booky.viewholder;
 
 
 import android.content.Context;
@@ -9,9 +9,9 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
-import rocks.mgr.booky.R;
-import rocks.mgr.booky.entities.Book;
-import rocks.mgr.booky.listener.BookClickListener;
+import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.entities.Book;
+import rocks.marcelgross.booky.listener.BookClickListener;
 
 public class BookViewHolder extends RecyclerView.ViewHolder {
 
