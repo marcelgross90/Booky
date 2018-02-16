@@ -8,8 +8,10 @@ import android.widget.Filter;
 import android.widget.Filterable;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import rocks.marcelgross.booky.R;
 import rocks.marcelgross.booky.entities.Book;
@@ -25,7 +27,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
 
     private final DisplayMessage displayMessage;
     private final BookClickListener listener;
-    private final List<Book> dataSet = new ArrayList<>();
+    private final Set<Book> dataSet = new HashSet<>();
     private List<Book> filteredDataSet;
 
     public BookListAdapter(List<Book> books, BookClickListener listener, DisplayMessage displayMessage) {
@@ -36,6 +38,7 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
         this.filteredDataSet = new LinkedList<>(dataSet);
     }
 
+
     @Override
     public Filter getFilter() {
         return new FilterBooks(this, dataSet);
@@ -43,6 +46,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
 
     public void updateDataSet(List<Book> books) {
         this.dataSet.clear();
+        addNewBooks(books);
+    }
+
+    public void addNewBooks(List<Book> books) {
         this.dataSet.addAll(books);
         this.filteredDataSet = new LinkedList<>(dataSet);
         notifyDataSetChanged();
@@ -81,10 +88,10 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
     public class FilterBooks extends Filter {
 
         private final BookListAdapter adapter;
-        final List<Book> bookList;
+        private Set<Book> bookList = new HashSet<>();
         final List<Book> filteredBookList;
 
-        FilterBooks(BookListAdapter adapter, List<Book> bookList) {
+        FilterBooks(BookListAdapter adapter, Set<Book> bookList) {
             this.adapter = adapter;
             this.bookList = bookList;
             this.filteredBookList = new ArrayList<>();

@@ -126,4 +126,36 @@ public class Book {
         String[] splitAuthors = authors.split(", ");
         setAuthors(Arrays.asList(splitAuthors));
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Book book = (Book) o;
+
+        if (id != book.id) return false;
+        if (pageCount != book.pageCount) return false;
+        if (!title.equals(book.title)) return false;
+        if (isnb != null ? !isnb.equals(book.isnb) : book.isnb != null) return false;
+        if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null)
+            return false;
+        if (authors != null ? !authors.equals(book.authors) : book.authors != null) return false;
+        if (publishedDate != null ? !publishedDate.equals(book.publishedDate) : book.publishedDate != null)
+            return false;
+        return thumbnail != null ? thumbnail.equals(book.thumbnail) : book.thumbnail == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = (int) (id ^ (id >>> 32));
+        result = 31 * result + title.hashCode();
+        result = 31 * result + (isnb != null ? isnb.hashCode() : 0);
+        result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
+        result = 31 * result + (authors != null ? authors.hashCode() : 0);
+        result = 31 * result + (publishedDate != null ? publishedDate.hashCode() : 0);
+        result = 31 * result + pageCount;
+        result = 31 * result + (thumbnail != null ? thumbnail.hashCode() : 0);
+        return result;
+    }
 }

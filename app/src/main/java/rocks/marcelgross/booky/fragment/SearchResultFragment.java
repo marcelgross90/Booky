@@ -11,7 +11,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,13 +20,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import rocks.marcelgross.booky.R;
-import rocks.marcelgross.booky.ScrollListener;
 import rocks.marcelgross.booky.adapter.BookListAdapter;
 import rocks.marcelgross.booky.database.BookDbHelper;
 import rocks.marcelgross.booky.entities.Book;
 import rocks.marcelgross.booky.listener.BookClickListener;
 import rocks.marcelgross.booky.network.NetworkRequest;
-
 
 public class SearchResultFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {
 
@@ -35,9 +32,11 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
     private RecyclerView recyclerView;
     private TextView noBooksTv;
     private View progressbar;
+    private View searchList;
     private List<Book> selectedBooks = new ArrayList<>();
 
     private BookDbHelper db;
+    private int totalItems;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -62,18 +61,20 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
             return null;
         }
 
+        searchList = view.findViewById(R.id.searchList);
         adapter = new BookListAdapter(new ArrayList<Book>(), this, this);
         recyclerView = view.findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(activity);
         recyclerView.setAdapter(adapter);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
-        //todo reload new results
-       /* recyclerView.addOnScrollListener(new ScrollListener(layoutManager, new ScrollListener.OnScrollListener() {
+        /*recyclerView.addOnScrollListener(new ScrollListener(layoutManager, new ScrollListener.OnScrollListener() {
             @Override
             public void loadNextBooks() {
-                progressbar.setVisibility(View.VISIBLE);
-                searchBooks(bundle, adapter.getItemCount());
+                if (adapter.getItemCount() < totalItems) {
+                    progressbar.setVisibility(View.VISIBLE);
+                    searchBooks(bundle, adapter.getItemCount());
+                }
             }
         }));*/
 
@@ -87,7 +88,7 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
             @Override
             public void onClick(View v) {
                 if (selectedBooks.size() == 0) {
-                    final Snackbar mySnackbar = Snackbar.make(recyclerView,
+                    final Snackbar mySnackbar = Snackbar.make(searchList,
                             R.string.noSelectedBooks, Snackbar.LENGTH_LONG);
                     mySnackbar.show();
                 } else {
@@ -101,7 +102,6 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
 
         return view;
     }
-
 
     private void searchBooks(Bundle bundle, int startIndex) {
         String isbn = bundle.getString(getString(R.string.isbn));
@@ -131,7 +131,7 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
                 selectedBooks.clear();
 
                 List<Book> books = responseObject.getBooks();
-                int totalItems = responseObject.getTotalItems();
+                totalItems = responseObject.getTotalItems();
                 if (books.size() == 0 && adapter.getItemCount() == 0) {
                     noBooksTv.setVisibility(View.VISIBLE);
                 } else {
@@ -140,9 +140,9 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
                         return;
                     }
                     recyclerView.setVisibility(View.VISIBLE);
-                    adapter.updateDataSet(books);
+                    adapter.addNewBooks(books);
 
-                    activity.setTitle(activity.getResources().getQuantityString(R.plurals.searchResults,totalItems, totalItems));
+                    activity.setTitle(activity.getResources().getQuantityString(R.plurals.searchResults, totalItems, totalItems));
                 }
             }
         };
@@ -162,10 +162,12 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
             view.setBackgroundColor(Color.WHITE);
         } else {
             selectedBooks.add(book);
-            view.setBackgroundColor(Color.LTGRAY);
+            Activity activity = getActivity();
+            if (activity == null) {
+                return;
+            }
+            view.setBackgroundColor(activity.getResources().getColor(R.color.colorPrimary));
         }
-
-        Log.d("mgr", "Selected books { " + selectedBooks.size() + " }");
     }
 
     @Override
