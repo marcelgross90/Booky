@@ -211,6 +211,7 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
                 .setTitle(getString(R.string.deleteBook, book.getTitle()))
                 .setCancelable(false)
                 .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                    @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // Do something with parameter.
                         delete(book);
@@ -218,6 +219,7 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
                 })
                 .setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
+                            @Override
                             public void onClick(DialogInterface dialog, int id) {
                                 dialog.cancel();
 

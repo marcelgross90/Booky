@@ -88,6 +88,7 @@ public class AddBookFragment extends DialogFragment implements View.OnClickListe
         }
     }
 
+    @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
