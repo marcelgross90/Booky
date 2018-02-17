@@ -105,7 +105,7 @@ public class NetworkRequest {
         }
 
 
-        public class Response {
+        public static class Response {
             private final Gson gson = new Gson();
             private final int code;
             private final byte data[];
@@ -141,7 +141,7 @@ public class NetworkRequest {
             }
         }
 
-        public class ResponseObject {
+        public static class ResponseObject {
             private final List<Book> books = new ArrayList<>();
             private int totalItems;
 

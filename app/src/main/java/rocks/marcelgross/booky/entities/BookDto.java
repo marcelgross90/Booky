@@ -29,7 +29,7 @@ public class BookDto {
         this.totalItems = totalItems;
     }
 
-    public class Items {
+    public static class Items {
         private VolumeInfo volumeInfo;
 
         public VolumeInfo getVolumeInfo() {
@@ -42,7 +42,7 @@ public class BookDto {
         }
     }
 
-    public class VolumeInfo {
+    public static class VolumeInfo {
         private String title;
         private String subtitle;
         private final List<String> authors = new ArrayList<>();
@@ -114,7 +114,7 @@ public class BookDto {
         }
     }
 
-    public class IndustryIdentifiers {
+    public static class IndustryIdentifiers {
         private String type;
         private String identifier;
 
@@ -135,7 +135,7 @@ public class BookDto {
         }
     }
 
-    public class ImageLinks {
+    public static class ImageLinks {
         private String smallThumbnail;
         private String thumbnail;
 
