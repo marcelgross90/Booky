@@ -2,6 +2,7 @@ package rocks.marcelgross.booky.viewholder;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
@@ -37,6 +38,7 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
     }
 
     public void assignData(final Book book) {
+        view.setBackgroundColor(Color.WHITE);
         if (listener != null) {
             view.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
