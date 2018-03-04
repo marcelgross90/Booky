@@ -20,6 +20,7 @@ import rocks.marcelgross.booky.R;
 public class ScanBookActivity extends AppCompatActivity {
     private static final int REQUEST_CAMERA = 1;
 
+    private final Zxing zxing = new Zxing();
     private final Runnable decodingRunnable = new Runnable() {
         @Override
         public void run() {
@@ -176,9 +177,7 @@ public class ScanBookActivity extends AppCompatActivity {
         if (frameData == null) {
             return null;
         }
-        /*return decodeBarcode(frameData, frameWidth, frameHeight,
-                frameOrientation);*/
-        return null;
+        return zxing.decodeYuv(frameData, frameWidth, frameHeight);
     }
 
     private void found(Result result) {
