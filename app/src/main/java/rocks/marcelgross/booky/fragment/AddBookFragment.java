@@ -1,6 +1,5 @@
 package rocks.marcelgross.booky.fragment;
 
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,14 +20,13 @@ import rocks.marcelgross.booky.IsbnValidator;
 import rocks.marcelgross.booky.MainActivity;
 import rocks.marcelgross.booky.R;
 
-
 public class AddBookFragment extends DialogFragment implements View.OnClickListener {
-
     private TextInputLayout isbnWrapper;
     private EditText isbnEd;
 
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_add_book, container, false);
 
@@ -82,7 +80,8 @@ public class AddBookFragment extends DialogFragment implements View.OnClickListe
                 }
                 break;
             case R.id.manuallyBtn:
-                MainActivity.replaceFragment(getFragmentManager(), new EditBookFragment());
+                MainActivity.replaceFragment(getFragmentManager(),
+                        new EditBookFragment());
                 getDialog().dismiss();
                 break;
         }
@@ -90,19 +89,14 @@ public class AddBookFragment extends DialogFragment implements View.OnClickListe
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        final IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Log.d("mgr", "cancelled");
+        IntentResult result = IntentIntegrator.parseActivityResult(requestCode,
+                resultCode, data);
+        String text;
+        if (result != null && (text = result.getContents()) != null) {
+            if (IsbnValidator.isValid(text)) {
+                isbnEd.setText(text);
             } else {
-                Log.d("mgr", "valid isbn " + IsbnValidator.isValid(result.getContents()));
-                if (IsbnValidator.isValid(result.getContents())) {
-
-                    isbnEd.setText(result.getContents());
-                } else {
-                    isbnWrapper.setError(getString(R.string.invalidISBN));
-                }
-
+                isbnWrapper.setError(getString(R.string.invalidISBN));
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);

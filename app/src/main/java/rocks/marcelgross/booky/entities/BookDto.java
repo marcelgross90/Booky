@@ -1,10 +1,7 @@
 package rocks.marcelgross.booky.entities;
 
-
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 public class BookDto {
 

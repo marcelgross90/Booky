@@ -86,7 +86,6 @@ public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implem
     }
 
     public static class FilterBooks extends Filter {
-
         private final BookListAdapter adapter;
         private Set<Book> bookList = new HashSet<>();
         final List<Book> filteredBookList;

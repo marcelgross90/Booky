@@ -1,6 +1,5 @@
 package rocks.marcelgross.booky.fragment;
 
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -17,7 +16,6 @@ import rocks.marcelgross.booky.database.BookDbHelper;
 import rocks.marcelgross.booky.entities.Book;
 
 public class EditBookFragment extends Fragment implements View.OnClickListener {
-
     private TextInputLayout titleWrapper;
     private EditText titleEd;
     private EditText subtitleEd;

@@ -1,6 +1,5 @@
 package rocks.marcelgross.booky.viewholder;
 
-
 import android.content.Context;
 import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
@@ -54,16 +53,19 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
                     listener.onBookClickListener(view, book);
                 }
             });
-
         }
+
         this.title.setText(book.getTitle());
+
         if (book.getSubtitle() == null || book.getSubtitle().isEmpty()) {
             this.subtitle.setVisibility(View.GONE);
         } else {
             this.subtitle.setVisibility(View.VISIBLE);
             this.subtitle.setText(book.getSubtitle());
         }
-        if (book.getConcatAuthors() == null || book.getConcatAuthors().isEmpty()) {
+
+        if (book.getConcatAuthors() == null ||
+                book.getConcatAuthors().isEmpty()) {
             this.author.setVisibility(View.GONE);
         } else {
             this.author.setVisibility(View.VISIBLE);
@@ -74,13 +76,15 @@ public class BookViewHolder extends RecyclerView.ViewHolder {
             this.pages.setVisibility(View.GONE);
         } else {
             this.pages.setVisibility(View.VISIBLE);
-            this.pages.setText(context.getString(R.string.pages, book.getPageCount()));
+            this.pages.setText(context.getString(R.string.pages,
+                    book.getPageCount()));
         }
 
         setPoster(book.getThumbnail());
     }
 
     private void setPoster(String coverUri) {
-        Picasso.with(context).load(coverUri).resize(222, 334).error(R.mipmap.ic_launcher).into(cover);
+        Picasso.with(context).load(coverUri).resize(222, 334).error(
+                R.mipmap.ic_launcher).into(cover);
     }
 }

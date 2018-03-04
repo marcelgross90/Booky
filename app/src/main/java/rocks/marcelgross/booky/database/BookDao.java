@@ -9,7 +9,6 @@ import java.util.List;
 
 import rocks.marcelgross.booky.entities.Book;
 
-
 class BookDao extends BaseDao {
 
     private static BookDao instance;

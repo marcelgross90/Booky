@@ -15,25 +15,26 @@ public class MainActivity extends AppCompatActivity {
 
     public static void replaceFragment(FragmentManager fm, Fragment fragment) {
         fm.beginTransaction()
-                .replace(
-                        R.id.content_container,
-                        fragment, fragment.getClass().getName())
+                .replace(R.id.content_container, fragment,
+                        fragment.getClass().getName())
                 .addToBackStack(null)
                 .commit();
     }
 
     @Override
     public void onBackPressed() {
-        if (fm.getBackStackEntryCount() > 1)
+        if (fm.getBackStackEntryCount() > 1) {
             super.onBackPressed();
-        else
+        } else {
             finish();
+        }
     }
 
     @Override
     public boolean onSupportNavigateUp() {
-        if (fm.getBackStackEntryCount() > 1)
+        if (fm.getBackStackEntryCount() > 1) {
             fm.popBackStack();
+        }
 
         return false;
     }
@@ -46,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
         fm = getSupportFragmentManager();
 
         initToolbar();
-
 
         if (savedInstanceState == null) {
             replaceFragment(fm, new BookListFragment());

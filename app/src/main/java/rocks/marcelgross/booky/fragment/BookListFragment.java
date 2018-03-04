@@ -1,6 +1,5 @@
 package rocks.marcelgross.booky.fragment;
 
-
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -34,9 +33,7 @@ import rocks.marcelgross.booky.listener.BookClickListener;
 import static rocks.marcelgross.booky.FilterMode.AUTHOR;
 import static rocks.marcelgross.booky.FilterMode.TITLE;
 
-
 public class BookListFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {
-
     private BookListAdapter adapter;
     private RecyclerView recyclerView;
     private TextView noBooksTv;
@@ -49,7 +46,6 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
     public static final String MyPREFERENCES = "Filter_Type";
     public static final String FILTER_MODE = "filter_mode";
     SharedPreferences sharedpreferences;
-
 
     @Override
     public void onResume() {
@@ -98,8 +94,6 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
         switch (item.getItemId()) {
             case R.id.action_filter:
                 chooseSortByMode.setVisibility(View.VISIBLE);
-
-
         }
         return super.onOptionsItemSelected(item);
     }
@@ -178,7 +172,6 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
         chooseSortByMode.setVisibility(View.GONE);
     }
 
-
     private void setRadioButtons() {
         switch (getFilterMode()) {
             case AUTHOR:
@@ -210,13 +203,13 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
         alertDialogBuilder
                 .setTitle(getString(R.string.deleteBook, book.getTitle()))
                 .setCancelable(false)
-                .setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int id) {
-                        // Do something with parameter.
-                        delete(book);
-                    }
-                })
+                .setPositiveButton(getString(R.string.ok),
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int id) {
+                                delete(book);
+                            }
+                        })
                 .setNegativeButton(getString(R.string.cancel),
                         new DialogInterface.OnClickListener() {
                             @Override
@@ -251,5 +244,4 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
                 return FilterMode.TITLE;
         }
     }
-
 }

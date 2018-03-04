@@ -40,7 +40,6 @@ public class NetworkRequest {
     }
 
     public static class BookRequest extends AsyncTask<String, Void, BookRequest.Response> {
-
         final OnResultListener listener;
 
         BookRequest(OnResultListener listener) {
@@ -104,9 +103,7 @@ public class NetworkRequest {
             return data.toByteArray();
         }
 
-
         public static class Response {
-            private final Gson gson = new Gson();
             private final int code;
             private final byte data[];
 
@@ -118,12 +115,12 @@ public class NetworkRequest {
             ResponseObject getResponseObject() {
                 if (successfulRequest(code)) {
                     List<Book> books = new ArrayList<>();
+                    Gson gson = new Gson();
                     BookDto dto = gson.fromJson(getString(), BookDto.class);
                     for (BookDto.Items items : dto.getItems()) {
                         books.add(new Book(items));
                     }
                     return new ResponseObject(books, dto.getTotalItems());
-
                 }
                 return new ResponseObject(Collections.<Book>emptyList(), 0);
             }

@@ -5,7 +5,6 @@ import android.support.v7.widget.RecyclerView;
 
 public class ScrollListener extends RecyclerView.OnScrollListener {
 
-
     public interface OnScrollListener {
         void loadNextBooks();
     }

@@ -1,6 +1,5 @@
 package rocks.marcelgross.booky.fragment;
 
-
 import android.app.Activity;
 import android.content.res.Resources;
 import android.graphics.Color;
@@ -28,7 +27,6 @@ import rocks.marcelgross.booky.listener.BookClickListener;
 import rocks.marcelgross.booky.network.NetworkRequest;
 
 public class SearchResultFragment extends Fragment implements BookListAdapter.DisplayMessage, BookClickListener {
-
     private BookListAdapter adapter;
     private RecyclerView recyclerView;
     private TextView noBooksTv;
@@ -122,7 +120,6 @@ public class SearchResultFragment extends Fragment implements BookListAdapter.Di
                 request.searchTitleAsync(title, startIndex, getOnResultListener());
             }
         }
-
     }
 
     private NetworkRequest.OnResultListener getOnResultListener() {
