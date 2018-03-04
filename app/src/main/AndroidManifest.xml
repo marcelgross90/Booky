@@ -7,7 +7,9 @@
         android:largeScreens="true"
         android:xlargeScreens="true" />
 
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.VIBRATE" />
 
     <application
         android:allowBackup="true"
@@ -35,6 +37,8 @@
                     android:scheme="http" />
             </intent-filter>
         </activity>
+        <activity android:name=".ScanBookActivity"
+            android:label="@string/scan_book" />
     </application>
 
 </manifest>

@@ -3,6 +3,7 @@ package rocks.marcelgross.booky.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -25,6 +26,7 @@ import android.widget.TextView;
 
 import rocks.marcelgross.booky.FilterMode;
 import rocks.marcelgross.booky.R;
+import rocks.marcelgross.booky.ScanBookActivity;
 import rocks.marcelgross.booky.adapter.BookListAdapter;
 import rocks.marcelgross.booky.database.BookDbHelper;
 import rocks.marcelgross.booky.entities.Book;
@@ -134,10 +136,8 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentManager fragmentManager = getFragmentManager();
-                if (fragmentManager != null) {
-                    new AddBookFragment().show(fragmentManager, "scan");
-                }
+                startActivity(new Intent(v.getContext(),
+                        ScanBookActivity.class));
             }
         });
 

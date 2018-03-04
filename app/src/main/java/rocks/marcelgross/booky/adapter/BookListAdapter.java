@@ -18,7 +18,6 @@ import rocks.marcelgross.booky.entities.Book;
 import rocks.marcelgross.booky.listener.BookClickListener;
 import rocks.marcelgross.booky.viewholder.BookViewHolder;
 
-
 public class BookListAdapter extends RecyclerView.Adapter<BookViewHolder> implements Filterable {
 
     public interface DisplayMessage {
