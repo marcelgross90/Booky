@@ -9,12 +9,14 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ListView;
 import android.widget.Toast;
 
 import com.google.zxing.Result;
 
 import de.markusfisch.android.cameraview.widget.CameraView;
 
+import rocks.marcelgross.booky.rs.Preprocessor;
 import rocks.marcelgross.booky.R;
 
 public class ScanBookActivity extends AppCompatActivity {
@@ -40,10 +42,12 @@ public class ScanBookActivity extends AppCompatActivity {
         }
     };
 
+    private ListView listView;
     private CameraView cameraView;
     private Vibrator vibrator;
     private boolean decoding = false;
     private Thread decodingThread;
+    private Preprocessor preprocessor;
     private byte frameData[];
     private int frameWidth;
     private int frameHeight;
@@ -76,6 +80,9 @@ public class ScanBookActivity extends AppCompatActivity {
 
         vibrator = (Vibrator) getSystemService(Context.VIBRATOR_SERVICE);
 
+        listView = findViewById(R.id.books);
+        initListView();
+
         cameraView = findViewById(R.id.camera_view);
         initCameraView();
     }
@@ -103,6 +110,10 @@ public class ScanBookActivity extends AppCompatActivity {
                     new String[]{permission},
                     REQUEST_CAMERA);
         }
+    }
+
+    private void initListView() {
+        //listView.setAdapter();
     }
 
     private void initCameraView() {
@@ -177,11 +188,23 @@ public class ScanBookActivity extends AppCompatActivity {
         if (frameData == null) {
             return null;
         }
-        return zxing.decodeYuv(frameData, frameWidth, frameHeight);
+        if (preprocessor == null) {
+            preprocessor = new Preprocessor(
+                    this,
+                    frameWidth,
+                    frameHeight,
+                    frameOrientation);
+        }
+        preprocessor.process(frameData);
+        return zxing.decodeYuv(
+                frameData,
+                preprocessor.outWidth,
+                preprocessor.outHeight);
     }
 
     private void found(Result result) {
         cancelDecoding();
         vibrator.vibrate(100);
+        Toast.makeText(this, result.getText(), Toast.LENGTH_SHORT).show();
     }
 }
