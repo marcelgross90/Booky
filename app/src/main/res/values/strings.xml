@@ -24,4 +24,5 @@
         <item quantity="other">%d search results</item>
     </plurals>
     <string name="noSelectedBooks">No books selected</string>
+    <string name="save">Save</string>
 </resources>

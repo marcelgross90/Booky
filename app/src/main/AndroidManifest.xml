@@ -38,7 +38,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ScanBookActivity"
-            android:label="@string/scan_book" />
+            android:label="@string/scan_book" android:parentActivityName=".MainActivity"/>
     </application>
 
 </manifest>

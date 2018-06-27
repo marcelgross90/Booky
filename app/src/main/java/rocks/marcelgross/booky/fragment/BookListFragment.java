@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Vibrator;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -43,6 +44,8 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
 
     private View chooseSortByMode;
     private BookDbHelper db;
+
+    private Vibrator vibrator;
 
     public static final String MyPREFERENCES = "Filter_Type";
     public static final String FILTER_MODE = "filter_mode";
@@ -103,6 +106,8 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
+
+        vibrator = (Vibrator) getContext().getSystemService(Context.VIBRATOR_SERVICE);
     }
 
     @Override
@@ -192,6 +197,7 @@ public class BookListFragment extends Fragment implements BookListAdapter.Displa
 
     @Override
     public void onBookLongClickListener(View view, final Book book) {
+        vibrator.vibrate(10);
         Context context = getContext();
         if (context == null) {
             return;
