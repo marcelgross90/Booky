@@ -7,7 +7,7 @@ public class Book {
 
     private long id;
     private String title;
-    private String isnb;
+    private String isbn;
     private String subtitle;
     private List<String> authors;
     private String publishedDate;
@@ -34,11 +34,11 @@ public class Book {
         }
         if (industryIdentifiers != null && industryIdentifiers.size() > 0) {
             if (industryIdentifiers.size() == 1) {
-                this.isnb = industryIdentifiers.get(0).getIdentifier();
+                this.isbn = industryIdentifiers.get(0).getIdentifier();
             } else {
                 for (BookDto.IndustryIdentifiers industryIdentifier : industryIdentifiers) {
                     if (industryIdentifier.getType().equals("ISBN_13")) {
-                        this.isnb = industryIdentifier.getIdentifier();
+                        this.isbn = industryIdentifier.getIdentifier();
                         break;
                     }
                 }
@@ -62,12 +62,12 @@ public class Book {
         this.title = title;
     }
 
-    public String getIsnb() {
-        return isnb;
+    public String getIsbn() {
+        return isbn;
     }
 
-    public void setIsnb(String isnb) {
-        this.isnb = isnb;
+    public void setIsbn(String isbn) {
+        this.isbn = isbn;
     }
 
     public String getSubtitle() {
@@ -137,7 +137,7 @@ public class Book {
         if (id != book.id) return false;
         if (pageCount != book.pageCount) return false;
         if (!title.equals(book.title)) return false;
-        if (isnb != null ? !isnb.equals(book.isnb) : book.isnb != null) return false;
+        if (isbn != null ? !isbn.equals(book.isbn) : book.isbn != null) return false;
         if (subtitle != null ? !subtitle.equals(book.subtitle) : book.subtitle != null)
             return false;
         if (authors != null ? !authors.equals(book.authors) : book.authors != null) return false;
@@ -150,7 +150,7 @@ public class Book {
     public int hashCode() {
         int result = (int) (id ^ (id >>> 32));
         result = 31 * result + title.hashCode();
-        result = 31 * result + (isnb != null ? isnb.hashCode() : 0);
+        result = 31 * result + (isbn != null ? isbn.hashCode() : 0);
         result = 31 * result + (subtitle != null ? subtitle.hashCode() : 0);
         result = 31 * result + (authors != null ? authors.hashCode() : 0);
         result = 31 * result + (publishedDate != null ? publishedDate.hashCode() : 0);

@@ -27,7 +27,7 @@ class BookDao extends BaseDao {
 
     void create(Book book) {
         ContentValues values = new ContentValues();
-        values.put(BookEntry.COLUMN_BOOK_ISBN, book.getIsnb());
+        values.put(BookEntry.COLUMN_BOOK_ISBN, book.getIsbn());
         values.put(BookEntry.COLUMN_BOOK_TITLE, book.getTitle());
         values.put(BookEntry.COLUMN_BOOK_SUBTITLE, book.getSubtitle());
         values.put(BookEntry.COLUMN_BOOK_AUTHORS, book.getConcatAuthors());
@@ -66,7 +66,7 @@ class BookDao extends BaseDao {
             do {
                 Book currentBook = new Book();
                 currentBook.setId(c.getLong(c.getColumnIndexOrThrow(BookEntry._ID)));
-                currentBook.setIsnb(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_ISBN)));
+                currentBook.setIsbn(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_ISBN)));
                 currentBook.setTitle(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_TITLE)));
                 currentBook.setSubtitle(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_SUBTITLE)));
                 currentBook.extractAuthors(c.getString(c.getColumnIndexOrThrow(BookEntry.COLUMN_BOOK_AUTHORS)));

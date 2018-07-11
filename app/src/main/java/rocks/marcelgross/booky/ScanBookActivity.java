@@ -55,6 +55,20 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
             }
         }
     };
+    private final NetworkRequest.OnResultListener onResultListener =
+        new NetworkRequest.OnResultListener() {
+            @Override
+            public void onResultListener(NetworkRequest.BookRequest.ResponseObject responseObject) {
+                List<Book> books = responseObject.getBooks();
+                if (books.size() == 0 && adapter.getItemCount() == 0) {
+                    Toast.makeText(ScanBookActivity.this, R.string.noBooksFound, Toast.LENGTH_SHORT).show();
+                } else if (books.size() > 1) {
+                    showChooserDialog(books);
+                } else {
+                    addBookAndRestartDecoding(books.get(0));
+                }
+            }
+        };
 
     private TextView infoText;
     private RecyclerView recyclerView;
@@ -68,8 +82,6 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
     private int frameWidth;
     private int frameHeight;
     private int frameOrientation;
-
-    private String scannedISBN = "";
     private Book selectedBook = null;
 
     @Override
@@ -221,6 +233,9 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
     }
 
     private void startDecoding() {
+        if (decoding) {
+            return;
+        }
         frameData = null;
         decoding = true;
         decodingThread = new Thread(decodingRunnable);
@@ -261,13 +276,7 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
     }
 
     private void found(Result result) {
-
-        String isbn = result.getText();
-
-        if (isbn.equals(scannedISBN)) {
-            return;
-        }
-
+        cancelDecoding();
         vibrator.vibrate(100);
         searchBook(result.getText());
     }
@@ -275,28 +284,7 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
     private void searchBook(String isbn) {
         NetworkRequest networkRequest = new NetworkRequest();
 
-        networkRequest.searchISBNAsync(isbn, 0, getOnResultListener());
-    }
-
-    private NetworkRequest.OnResultListener getOnResultListener() {
-        return new NetworkRequest.OnResultListener() {
-            @Override
-            public void onResultListener(NetworkRequest.BookRequest.ResponseObject responseObject) {
-
-                List<Book> books = responseObject.getBooks();
-                if (books.size() == 0 && adapter.getItemCount() == 0) {
-                    Toast.makeText(ScanBookActivity.this, R.string.noBooksFound, Toast.LENGTH_SHORT).show();
-                    scannedISBN = "";
-                } else if (books.size() > 1) {
-                    showChooserDialog(books);
-                    scannedISBN = "";
-                } else {
-                    infoText.setVisibility(View.GONE);
-                    recyclerView.setVisibility(View.VISIBLE);
-                    adapter.addBook(books.get(0));
-                }
-            }
-        };
+        networkRequest.searchISBNAsync(isbn, 0, onResultListener);
     }
 
     private void showChooserDialog(final List<Book> books) {
@@ -315,21 +303,30 @@ public class ScanBookActivity extends AppCompatActivity implements DeleteButtonC
         builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
                 if (selectedBook != null) {
-                    adapter.addBook(selectedBook);
+                    addBookAndRestartDecoding(selectedBook);
                 }
+                dialog.cancel();
             }
         });
 
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int id) {
-                   dialog.cancel();
+                dialog.cancel();
             }
         });
 
         builder.create().show();
+    }
+
+    private void addBookAndRestartDecoding(Book book) {
+        if (recyclerView.getVisibility() != View.VISIBLE) {
+            infoText.setVisibility(View.GONE);
+            recyclerView.setVisibility(View.VISIBLE);
+        }
+        adapter.addBook(book);
+        startDecoding();
     }
 
     @NonNull

@@ -74,7 +74,7 @@ public class EditBookFragment extends Fragment implements View.OnClickListener {
         } else {
             Book book = new Book();
             book.setTitle(titleEd.getText().toString());
-            book.setIsnb(isbnEd.getText().toString());
+            book.setIsbn(isbnEd.getText().toString());
             book.setSubtitle(subtitleEd.getText().toString());
             book.extractAuthors(authorsEd.getText().toString());
             book.setPublishedDate(publishedDateEd.getText().toString());

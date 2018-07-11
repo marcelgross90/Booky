@@ -43,7 +43,7 @@ public class ResultBookListAdapter extends RecyclerView.Adapter<ResultBookViewHo
         if (dataSet.contains(book)) {
             return;
         }
-        this.dataSet.add(book);
+        dataSet.add(book);
         notifyDataSetChanged();
     }
 
